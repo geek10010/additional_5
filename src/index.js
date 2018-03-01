@@ -1,18 +1,24 @@
 module.exports = function check(str, bracketsConfig) {
   if (str.length % 2 > 0) return false;
-  let arr = [];
+  let checkStack = [];
+  let bracketsPairs = {};
+  let currentBracket;
+  let previousBracket;
+  
+  for (let i=0; i<bracketsConfig.length; i++) {
+    bracketsPairs[bracketsConfig[i][0]] = bracketsConfig[i][1];
+  }
+  
   for (let i=0; i<str.length; i++) {
-    if (str[i] === bracketsConfig[0][0]) {
-      arr.push(str[i]);
-    }
-    if (str[i] === bracketsConfig[0][1]) {
-      arr.pop(str[i]);
+    currentBracket = str[i];
+    previousBracket = checkStack[checkStack.length - 1];
+    
+    if (currentBracket === bracketsPairs[previousBracket]) {
+      checkStack.pop();
+    } else {
+      checkStack.push(currentBracket);
     }
   }
   
-  if (arr.length === 0) {
-    return true;
-  } else {
-    return false;
-  }
+  return (checkStack.length === 0) ? true : false;
 }
