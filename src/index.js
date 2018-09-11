@@ -1,15 +1,20 @@
 module.exports = function check(str, bracketsConfig) {
-  if (str.length % 2 > 0) return false;
+  
+  let strLength = str.length;
   let checkStack = [];
   let bracketsPairs = {};
   let currentBracket;
   let previousBracket;
+
+  if (strLength % 2 > 0) {
+    return false;
+  }
   
-  for (let i=0; i<bracketsConfig.length; i++) {
+  for (let i = 0; i < bracketsConfig.length; i++) {
     bracketsPairs[bracketsConfig[i][0]] = bracketsConfig[i][1];
   }
   
-  for (let i=0; i<str.length; i++) {
+  for (let i = 0; i < strLength; i++) {
     currentBracket = str[i];
     previousBracket = checkStack[checkStack.length - 1];
     
@@ -20,5 +25,5 @@ module.exports = function check(str, bracketsConfig) {
     }
   }
   
-  return (checkStack.length === 0) ? true : false;
-}
+  return checkStack.length === 0;
+};
